@@ -12,25 +12,27 @@ import java.util.List;
 @RequestMapping("/orders")
 @CrossOrigin(origins = "http://localhost:3306")
 public class OrderController {
-    
+
     @Autowired
     private OrderService orderService;
-    
+
     @GetMapping
-    public List<Order> getAllOrders() {
-        return orderService.findAll();
+    public List<Order> getAllOrders(
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) List<String> status) {
+        return orderService.findAllOrders(userId, status);
     }
-    
+
     @GetMapping("/{id}")
     public Order getOrderById(@PathVariable Long id) {
         return orderService.findById(id);
     }
-    
+
     @PostMapping
     public Order createOrder(@RequestBody Order order) {
         return orderService.create(order);
     }
-    
+
     @PutMapping("/{id}")
     public Order updateOrder(@PathVariable Long id, @RequestBody Order order) {
         return orderService.update(id, order);
@@ -39,18 +41,16 @@ public class OrderController {
     @PatchMapping("/{id}/status")
     public Order updateOrderStatus(
             @PathVariable Long id,
-            @RequestBody StatusRequest statusRequest
-    ) {
+            @RequestBody StatusRequest statusRequest) {
         return orderService.updateStatus(id, statusRequest.getStatus());
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
-
 
 class StatusRequest {
     private String status;
