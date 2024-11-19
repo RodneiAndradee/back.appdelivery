@@ -14,7 +14,7 @@ public class CorsConfig {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("http://localhost:4200") // Adicione os domínios permitidos aqui
+            .allowedOrigins("http://localhost:4200", "https://comandadigital.netlify.app") // Adicione os domínios permitidos aqui
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*")
             .allowCredentials(true);
